@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Display quotes</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Quotify</h1>
+    </div>
+
+    <div id="subMenu">
+        <h4><a href="index.html">Random Quote Api</a> | <a href="displayLocal.html">Random Quote local</a> | <a href="addQuote.html">Add
+                Quote</a> | <a>List all quotes local</a></h4>
+
+    </div>
+
+    <div id="container">
+
+    </div>
+
+
+    <script>
+
+        const container = document.getElementById('container')
+
+
+        var localDB = localStorage.getItem('quote') ? JSON.parse(localStorage.getItem('quote')) : []
+
+        function createList(data, index) {
+            let DivTag = document.createElement('div')
+            const p1Tag = document.createElement('p')
+            const p2Tag = document.createElement('p')
+            DivTag.setAttribute('id', 'displayQuote')
+            // DivTag.style.overflow = "visible"
+            // DivTag.style.position = "relative"
+            p1Tag.setAttribute('class', `quote${index}`)
+            p2Tag.setAttribute('class', `quote${index}`)
+            p1Tag.style = "font-size:20px;font-family:Georgia,'Times New Roman',Times,serif;font-style:oblique;font-weight:200;"
+            p2Tag.style = "font-size:20px;font-family:Georgia,'Times New Roman',Times,serif;font-style:oblique;font-weight:200;"
+
+            p1Tag.textContent = data.quote
+            p2Tag.textContent = data.author
+            // console.log('inside')
+            DivTag.appendChild(p1Tag)
+            DivTag.appendChild(p2Tag)
+
+            const div2 = document.createElement('div')
+            div2.style.textAlign = "right"
+            const dltBtn = document.createElement('button')
+            dltBtn.textContent = 'Delete'
+            dltBtn.setAttribute('id', 'delete')
+            dltBtn.setAttribute('onclick', `deleteData(${index})`)
+            div2.appendChild(dltBtn)
+
+
+
+            DivTag.appendChild(div2)
+
+            const div3 = document.createElement('div')
+            div3.style.textAlign = "right"
+            const updateBtn = document.createElement('button')
+            updateBtn.textContent = 'Update'
+            updateBtn.setAttribute('id', 'update')
+            updateBtn.setAttribute('onclick', `updateData(${index})`)
+
+            div3.appendChild(updateBtn)
+            DivTag.appendChild(div3)
+            container.appendChild(DivTag)
+
+
+            const divHidden = document.createElement('div')
+
+            divHidden.style.visibility = 'hidden'
+            divHidden.style.border = "1px solid green"
+            divHidden.setAttribute('class', `class${index}`)
+
+            const textQuote = document.createElement('textarea')
+            divHidden.appendChild(textQuote)
+            textQuote.setAttribute('id', 'updatedQuote')
+            textQuote.setAttribute('rows', '5')
+            // textQuote.style = "width: 50%;margin-left:25%;resize:none;margin-bottom:1%;"
+            textQuote.style.width = "50%"
+            textQuote.style.marginLeft = "25%"
+            textQuote.style.resize = "none"
+            textQuote.style.marginBottom = "1%"
+            // console.dir(textQuote.style)
+
+
+            const br = document.createElement('br')
+            divHidden.appendChild(br)
+            const textAuthor = document.createElement('input')
+            textAuthor.setAttribute('type', 'text')
+            textAuthor.setAttribute('id', 'updatedAuthor')
+            textAuthor.style.width = "50%"
+            textAuthor.style.marginLeft = "25%"
+            textAuthor.style.resize = "none"
+            textAuthor.style.marginBottom = "1%"
+            divHidden.appendChild(textAuthor)
+
+            const btn = document.createElement('button')
+            btn.setAttribute('id', 'updateBtn')
+            btn.textContent = "Update"
+            btn.setAttribute('onclick', `updateLocal(${index})`)
+            divHidden.appendChild(btn)
+            container.appendChild(divHidden)
+        }
+
+        if (localDB.length == 0) {
+            alert('NO DATA AVAILABLE')
+
+        } else {
+
+            localDB.forEach(function (item, index) {
+                // console.log(item)
+                createList(item, index)
+            });
+
+
+        }
+
+        function deleteData(num) {
+            var confirmation = alert('Do You Want to delete')
+            if (confirmation) {
+                localDB.splice(num, 1)
+                localStorage.setItem('quote', JSON.stringify(localDB))
+                window.location = "list-all-quotes.html"
+            }
+        }
+
+        function updateData(index) {
+            const quote = document.getElementsByClassName(`class${index}`)
+            // quote[0].attributes[1].style.visibility = "none"
+            quote[0].children[0].value = localDB[`${index}`].quote
+            quote[0].children[2].value = localDB[`${index}`].author
+            quote[0].attributes.style.value = "visibility:none"
+        }
+
+        function updateLocal(index) {
+            const quoteValue = document.getElementsByClassName(`class${index}`)
+            console.log(quoteValue[0].children[0].value)
+            var quote = {
+                quote: `${quoteValue[0].children[0].value}`,
+                author: `${quoteValue[0].children[2].value}`
+            }
+            console.log(quote)
+            console.log(localDB.splice(index, 1))
+            console.log(localDB.splice(index, 0, quote))
+            localStorage.setItem('quote', JSON.stringify(localDB))
+
+            const p1Class = document.getElementsByClassName(`quote${index}`)
+            console.dir(p1Class)
+            p1Class[0].textContent = `${quoteValue[0].children[0].value}`
+            p1Class[1].textContent = `${quoteValue[0].children[2].value}`
+            const quote1 = document.getElementsByClassName(`class${index}`)
+            quote1[0].attributes.style.value = "visibility:hidden"
+
+
+
+        }
+
+
+    </script>
+</body>
+
+</html>

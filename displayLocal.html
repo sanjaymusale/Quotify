@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Display quotes</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Quotify</h1>
+    </div>
+
+    <div id="subMenu">
+        <h4><a href="index.html">Random Quote Api</a> | <a>Random Quote local</a> | <a href="addQuote.html">Add
+                Quote</a> | <a href="list-all-quotes.html">List all quotes local</a></h4>
+
+    </div>
+    <div id="displayQuote">
+        <p class="quote"></p>
+        <p class="quote"></p>
+    </div>
+
+
+    <div id="bottom">
+        <button id="next">Get Another Quote</button>
+    </div>
+    <script>
+
+        const quoteHandle = document.querySelectorAll('.quote')
+        const buttonHandle = document.getElementById('next')
+
+        var localDB = localStorage.getItem('quote') ? JSON.parse(localStorage.getItem('quote')) : []
+
+        if (localDB.length == 0) {
+            alert('No Data is Available')
+        } else {
+            var item = localDB[Math.floor(Math.random() * localDB.length)]
+            console.log(item)
+            displayQuote(item)
+        }
+
+        function displayQuote(data) {
+            quoteHandle[0].textContent = data.quote
+            quoteHandle[1].textContent = `- ` + data.author
+            console.log(data.quote)
+        }
+
+        buttonHandle.addEventListener('click', function () {
+            var item = localDB[Math.floor(Math.random() * localDB.length)]
+            console.log(item)
+            displayQuote(item)
+
+        })
+
+    </script>
+</body>
+
+</html>

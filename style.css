@@ -1,0 +1,77 @@
+body{
+    background-color: darkkhaki;
+}
+#header{
+text-align: center;
+font-size : 22px; 
+font-style: italic;
+}
+
+#subMenu{
+   text-align: center;
+   font-size : 20px; 
+}
+
+#displayQuote{
+    border: 1px solid black;
+    width: 80%;
+    
+    margin-left: 10%;
+    background-color: wheat;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+#displayQuote p{
+    
+}
+
+.quote{
+    font-size: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: oblique;
+    font-weight: 200;
+}
+
+#bottom{
+    
+    width: 80%;
+    
+    margin-left: 10%;
+    
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+#next{
+    width : 15%;
+    height: 30px;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+#localBTN{
+    text-align: right;
+    width: 80%;    
+    margin-left: 10%;
+}
+
+#addQuote #quoteTxt{    
+    width: 50%;
+    margin-left: 25%;
+    resize: none;
+    margin-bottom: 1%;
+}
+#addQuote #author{
+    
+    width: 50%;
+    margin-left: 25%;
+    height: 20px;
+    margin-bottom: 1%;
+}
+
+img{
+
+align-content: stretch
+
+}

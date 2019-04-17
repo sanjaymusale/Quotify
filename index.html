@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Display quotes</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Quotify</h1>
+    </div>
+
+    <div id="subMenu">
+        <h4><a>Random Quote Api</a> | <a href="displayLocal.html">Random Quote local</a> | <a href="addQuote.html">Add
+                Quote</a> | <a href="list-all-quotes.html">List all quotes local</a></h4>
+
+    </div>
+    <div id="displayQuote">
+        <p class="quote"></p>
+        <p class="quote"></p>
+    </div>
+    <div id="localBTN">
+        <button id="saveLocal">Save to Local</button>
+    </div>
+
+    <div id="bottom">
+        <button id="next">Get Another Quote</button>
+    </div>
+    <script>
+        var xhr = new XMLHttpRequest()
+        const quoteHandle = document.querySelectorAll('.quote')
+        const buttonHandle = document.getElementById('next')
+        const localHandle = document.getElementById('saveLocal')
+
+        xhr.open('GET', 'https://seinfeld-quotes.herokuapp.com/random')
+        xhr.send()
+        xhr.onload = function () {
+            var data = JSON.parse(xhr.responseText)
+            displayQuote(data)
+            console.log(data)
+        }
+
+        function displayQuote(data) {
+            quoteHandle[0].textContent = `" ` + data.quote + ` "`
+            quoteHandle[1].textContent = `- ` + data.author
+            console.log(data.quote)
+        }
+
+        buttonHandle.addEventListener('click', function () {
+            xhr.open('GET', 'https://seinfeld-quotes.herokuapp.com/random')
+            xhr.send()
+            xhr.onload = function () {
+                var random = JSON.parse(xhr.responseText)
+                displayQuote(random)
+                localHandle.textContent = 'Save to Local'
+                localHandle.removeAttribute('disabled')
+                console.log(random)
+            }
+        })
+
+        localHandle.addEventListener('click', function () {
+            var localDB = localStorage.getItem('quote') ? JSON.parse(localStorage.getItem('quote')) : []
+            if (quoteHandle[0].textContent == '' || quoteHandle[1].textContent == '') {
+                alert('Data insufficient')
+            } else {
+                var quoteData = {
+                    quote: quoteHandle[0].textContent,
+                    author: quoteHandle[1].textContent
+                }
+
+                localDB.push(quoteData)
+                localStorage.setItem('quote', JSON.stringify(localDB))
+                localHandle.textContent = 'Saved'
+                localHandle.setAttribute('disabled', 'disabled')
+            }
+
+        })
+     </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Display quotes</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Quotify</h1>
+    </div>
+
+    <div id="subMenu">
+        <h4><a href="index.html">Random Quote Api</a> | <a href="displayLocal.html">Random Quote local</a> | <a>Add
+                Quote</a> | <a href="list-all-quotes.html"> List all quotes local</a></h4>
+
+    </div>
+
+
+    <div id="addQuote">
+
+        <textarea id="quoteTxt" rows="10" placeholder="Type Your Quote" required></textarea><br />
+        <input type="text" id="author" placeholder="Who is The Author" required />
+
+    </div>
+
+
+    <div id="bottom">
+        <button id="next">Save Quote</button>
+    </div>
+
+    <script>
+
+        const quote = document.getElementById('quoteTxt')
+        const author = document.getElementById('author')
+        const buttonHandle = document.getElementById('next')
+
+        var localDB = localStorage.getItem('quote') ? JSON.parse(localStorage.getItem('quote')) : []
+
+        buttonHandle.addEventListener('click', function () {
+            var data = {
+                quote: quote.value,
+                author: author.value
+            }
+            localDB.push(data)
+            localStorage.setItem('quote', JSON.stringify(localDB))
+            window.location = "list-all-quotes.html"
+
+        })
+
+
+    </script>
+</body>
+
+</html>
